@@ -1,21 +1,28 @@
 "use strict";
 
-function ImmutableObject(props) {
-  if (typeof props === "undefined") {
-    return empty;
-  }
-  if (typeof props !== "object") {
+function ImmutableObject(input, callback) {
+  if (input && typeof input !== "object") {
     throw new TypeError("ImmutableObject property source must be an object.");
   }
-  if (props.__isImmutableObject__) {
-    return props;
+
+  var base = empty;
+  var props = input || {};
+  if (input && input.__isImmutableObject__) {
+    base = input;
+    props = {};
   }
-  return empty.set(props);
+
+  return Object.freeze(Object.create(base, {
+    __callback: {
+      enumerable: false,
+      value: callback,
+    },
+  })).set(props);
 }
 
 var empty = Object.freeze(Object.create(ImmutableObject.prototype));
 
-ImmutableObject.prototype.set = function(props) {
+ImmutableObject.prototype.set = function(props, callback) {
   if (!props) {
     return this;
   }
@@ -23,9 +30,9 @@ ImmutableObject.prototype.set = function(props) {
   // allow this.set("property", value)
   // call this.set({property: value})
   if (typeof props === "string") {
-    var propsObj = {};
-    propsObj[props] = arguments[1];
-    return this.set(propsObj);
+    props = {};
+    props[arguments[0]] = arguments[1];
+    callback = arguments[2];
   }
 
   var keys = allKeys(props);
@@ -51,6 +58,7 @@ ImmutableObject.prototype.set = function(props) {
   });
   var newObj = Object.create(this, propertyDefs);
   Object.freeze(newObj);
+  triggerChange(this, newObj);
   return newObj;
 };
 
@@ -102,6 +110,12 @@ function allKeys(obj) {
     return ImmutableObject.keys(obj);
   } else {
     return Object.keys(obj);
+  }
+}
+
+function triggerChange(obj, newObj) {
+  if (typeof obj.__callback === "function") {
+    obj.__callback(newObj);
   }
 }
 

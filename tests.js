@@ -34,7 +34,7 @@ describe("factory", function() {
   });
 
   it("returns same empty object when no props", function() {
-    assert.strictEqual(immutable(), immutable());
+    assert.deepEqual(immutable(), immutable());
   });
 
   it("can be called with various primitive types`", function() {
@@ -162,7 +162,21 @@ describe("unset", function() {
   });
 
   it("returns empty when object is already empty", function() {
-    assert.strictEqual(immutable().unset("a"), immutable());
+    assert.deepEqual(immutable().unset("a"), immutable());
+  });
+});
+
+describe("callback", function() {
+  it("set() should call callback", function() {
+    var called = 0;
+    function fn() {
+      called += 1;
+    }
+    var obj = immutable({}, fn);
+    var obj2 = obj.set({ foo: "bar" });
+    assert.equal(called, 1);
+    obj2.set({ foo: "baz" });
+    assert.equal(called, 2);
   });
 });
 
@@ -250,6 +264,19 @@ describe("using immutable as base class", function() {
     var obj = Type("arg");
     assert.equal(called, "arg");
   });
+
+  it("calls callback", function() {
+    var called = 0;
+    var Type = immutable.createClass({
+      test: 5,
+    });
+    var obj = Type(function() {
+      called += 1;
+    });
+    obj.set({ foo: "bar" });
+    assert.equal(called, 1);
+    assert.equal(obj.test, 5);
+  });
 });
 
 describe("lens.prop", function() {
@@ -269,7 +296,7 @@ describe("lens.prop", function() {
 describe("lens.arrayItem", function() {
   var original = ["a", "b", "c"];
   var item1 = lens.arrayItem(1);
-  
+
   it("can get item", function() {
     assert.equal(item1.get(original), "b");
   });
@@ -298,8 +325,8 @@ describe("composed lenses with lens.compose", function() {
 describe("lens.build", function() {
   var l = lens.build({
     foo: true
-  }); 
-  
+  });
+
   var target = immutable({
     foo: "a"
   });
@@ -375,7 +402,7 @@ describe("lens.build", function() {
   describe("object -> array -> object -> array", function() {
     var l = lens.build({
       a: [
-        { b: [] } 
+        { b: [] }
       ]
     });
     var target = immutable({
@@ -415,7 +442,7 @@ describe("lens.build", function() {
               items: [
                 { name: "Nuts", qty: 100, price: 2 },
                 { name: "Bolts", qty: 100, price: 3 }
-              ] 
+              ]
             }
           ]
         }
