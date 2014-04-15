@@ -4,7 +4,9 @@
   "description": "Immutable object",
   "main": "index.js",
   "scripts": {
-    "test": "mocha tests.js"
+    "test": "mocha tests.js",
+    "bench": "node bench",
+    "bench-server": "node bench/server"
   },
   "author": "Andrew Davey <andrew@equin.co.uk> (http://aboutcode.net/)",
   "license": "MIT",
@@ -19,6 +21,7 @@
     "gulp-browserify": "~0.4.2",
     "gulp-rename": "~0.2.2",
     "gulp-uglify": "~0.2.0",
-    "gulp-mocha": "~0.4.1"
+    "gulp-mocha": "~0.4.1",
+    "watchify": "^0.7.0"
   }
 }
