@@ -101,7 +101,10 @@ ImmutableObject.prototype.toJSON = function() {
   return json;
 };
 
-ImmutableObject.prototype.__isImmutableObject__ = true;
+Object.defineProperty(ImmutableObject.prototype, "__isImmutableObject__", {
+  enumerable: false,
+  value: true,
+});
 
 Object.freeze(ImmutableObject.prototype);
 
