@@ -1,5 +1,7 @@
 "use strict";
 
+var createObject = require("./lib/createObject");
+
 function ImmutableObject(input, callback) {
   if (input && typeof input !== "object") {
     throw new TypeError("ImmutableObject property source must be an object.");
@@ -12,7 +14,7 @@ function ImmutableObject(input, callback) {
     props = {};
   }
 
-  return Object.freeze(Object.create(base, {
+  return Object.freeze(createObject(base, {
     __callback: {
       enumerable: false,
       value: callback,
@@ -20,7 +22,7 @@ function ImmutableObject(input, callback) {
   })).set(props);
 }
 
-var empty = Object.freeze(Object.create(ImmutableObject.prototype));
+var empty = Object.freeze(createObject(ImmutableObject.prototype));
 
 ImmutableObject.prototype.set = function(props, callback) {
   if (!props) {
@@ -56,7 +58,7 @@ ImmutableObject.prototype.set = function(props, callback) {
     value = require("./factory")(value);
     propertyDefs[key] = { value: value, enumerable: true };
   });
-  var newObj = Object.create(this, propertyDefs);
+  var newObj = createObject(this, propertyDefs);
   Object.freeze(newObj);
   triggerChange(this, newObj);
   return newObj;
@@ -141,4 +143,3 @@ ImmutableObject.keys = function(obj) {
 };
 
 module.exports = ImmutableObject;
-
