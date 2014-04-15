@@ -1,5 +1,7 @@
 "use strict";
 
+var createObject = require("./lib/createObject");
+
 function ImmutableObject(props) {
   if (typeof props === "undefined") {
     return empty;
@@ -13,7 +15,7 @@ function ImmutableObject(props) {
   return empty.set(props);
 }
 
-var empty = Object.freeze(Object.create(ImmutableObject.prototype));
+var empty = Object.freeze(createObject(ImmutableObject.prototype));
 
 ImmutableObject.prototype.set = function(props) {
   if (!props) {
@@ -49,7 +51,7 @@ ImmutableObject.prototype.set = function(props) {
     value = require("./factory")(value);
     propertyDefs[key] = { value: value, enumerable: true };
   });
-  var newObj = Object.create(this, propertyDefs);
+  var newObj = createObject(this, propertyDefs);
   Object.freeze(newObj);
   return newObj;
 };
@@ -124,4 +126,3 @@ ImmutableObject.keys = function(obj) {
 };
 
 module.exports = ImmutableObject;
-

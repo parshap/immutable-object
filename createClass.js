@@ -1,6 +1,7 @@
 "use strict";
 
 var ImmutableObject = require("./ImmutableObject");
+var createObject = require("./lib/createObject");
 
 module.exports = function(members) {
   members = members || {};
@@ -9,7 +10,7 @@ module.exports = function(members) {
   if (typeof members.init === "function") {
     ctor = function() {
       var instance = Object.freeze(
-        (this instanceof ctor) ? this : Object.create(ctor.prototype)
+        (this instanceof ctor) ? this : createObject(ctor.prototype)
       );
       instance = members.init.apply(instance, arguments);
       if (!instance || !instance.__isImmutableObject__) {
