@@ -53,3 +53,9 @@ task = task.done();
 console.log(task.toString());
 ```
 
+## Running Benchmark Script
+
+Run `npm run bench` to run the benchmark script using node.
+
+Run `PORT=8080 npm run bench-server` to start an HTTP server on port
+8080 that will serve the benchmark script to browsers.
