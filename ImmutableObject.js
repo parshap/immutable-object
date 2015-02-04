@@ -1,6 +1,7 @@
 "use strict";
 
 var createObject = require("./lib/createObject");
+var freeze = require("./freeze");
 
 function ImmutableObject(input, callback) {
   if (input && typeof input !== "object") {
@@ -14,7 +15,7 @@ function ImmutableObject(input, callback) {
     props = {};
   }
 
-  return Object.freeze(createObject(base, {
+  return freeze(createObject(base, {
     __callback: {
       enumerable: false,
       value: callback,
@@ -22,7 +23,7 @@ function ImmutableObject(input, callback) {
   })).set(props);
 }
 
-var empty = Object.freeze(createObject(ImmutableObject.prototype));
+var empty = freeze(createObject(ImmutableObject.prototype));
 
 ImmutableObject.prototype.set = function(props, callback) {
   if (!props) {
@@ -59,7 +60,7 @@ ImmutableObject.prototype.set = function(props, callback) {
     propertyDefs[key] = { value: value, enumerable: true };
   });
   var newObj = createObject(this, propertyDefs);
-  Object.freeze(newObj);
+  freeze(newObj);
   triggerChange(this, newObj);
   return newObj;
 };
@@ -108,7 +109,7 @@ Object.defineProperty(ImmutableObject.prototype, "__isImmutableObject__", {
   value: true,
 });
 
-Object.freeze(ImmutableObject.prototype);
+freeze(ImmutableObject.prototype);
 
 function allKeys(obj) {
   if (obj && obj.__isImmutableObject__) {

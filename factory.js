@@ -2,6 +2,7 @@
 
 var ImmutableObject = require("./ImmutableObject");
 var ImmutableDate = require("immutable-date");
+var freeze = require("./freeze");
 
 function isDate(arg) {
   return typeof arg === 'object' && arg !== null &&
@@ -12,7 +13,7 @@ function factory(input, callback) {
   if (arguments.length === 0) {
     return ImmutableObject(null, callback);
   } else if (Array.isArray(input)) {
-    return Object.freeze(input.map(function(el) {
+    return freeze(input.map(function(el) {
       return factory(el, callback);
     }));
   } else if (isDate(input)) {
