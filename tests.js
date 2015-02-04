@@ -462,3 +462,14 @@ describe("lens.build", function() {
 
 });
 
+describe("to plain object", function() {
+  it("should convert a complex object", function() {
+    var obj = {
+      name: "Foo",
+      time: new Date(2015, 1, 2),
+      items: [{ name: true }],
+      value: 1,
+    };
+    assert.deepEqual(immutable.plain(immutable(obj)), obj);
+  });
+});
