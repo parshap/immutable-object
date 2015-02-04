@@ -46,6 +46,12 @@ describe("factory", function() {
     });
     assert.deepEqual(immutable(primitives), primitives);
   });
+
+  it("supports dates", function() {
+    var date = new Date(2015, 1, 2);
+    var idate = immutable(date);
+    assert.equal(idate.getDate(), 2);
+  });
 });
 
 describe("immutable array", function() {
