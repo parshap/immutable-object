@@ -16,12 +16,13 @@
   },
   "devDependencies": {
     "chai": "~1.8.1",
-    "mocha": "~1.17.1",
+    "deep-equal": "^0.2.1",
     "gulp": "~3.5.1",
     "gulp-browserify": "~0.4.2",
+    "gulp-mocha": "~0.4.1",
     "gulp-rename": "~0.2.2",
     "gulp-uglify": "~0.2.0",
-    "gulp-mocha": "~0.4.1",
+    "mocha": "~1.17.1",
     "watchify": "^0.7.0"
   },
   "dependencies": {

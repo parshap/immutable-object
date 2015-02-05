@@ -1,6 +1,7 @@
 var immutable = require("./index");
 var lens = immutable.lens;
 var assert = require("chai").assert;
+var deepEqual = require("deep-equal");
 
 describe("factory", function() {
   var obj;
@@ -470,6 +471,7 @@ describe("to plain object", function() {
       items: [{ name: true }],
       value: 1,
     };
-    assert.deepEqual(immutable.plain(immutable(obj)), obj);
+    var opts = { strict: true };
+    assert(deepEqual(immutable.plain(immutable(obj)), obj, opts));
   });
 });
