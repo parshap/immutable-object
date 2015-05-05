@@ -25,7 +25,7 @@ function ImmutableObject(input, callback) {
 
 var empty = freeze(createObject(ImmutableObject.prototype));
 
-ImmutableObject.prototype.set = function(props, callback) {
+ImmutableObject.prototype.set = function(props) {
   if (!props) {
     return this;
   }
@@ -35,7 +35,6 @@ ImmutableObject.prototype.set = function(props, callback) {
   if (typeof props === "string") {
     props = {};
     props[arguments[0]] = arguments[1];
-    callback = arguments[2];
   }
 
   var keys = allKeys(props);
