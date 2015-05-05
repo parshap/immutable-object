@@ -33,8 +33,9 @@ ImmutableObject.prototype.set = function(props) {
   // allow this.set("property", value)
   // call this.set({property: value})
   if (typeof props === "string") {
-    props = {};
-    props[arguments[0]] = arguments[1];
+    var propsObj = {};
+    propsObj[props] = arguments[1];
+    return this.set(propsObj);
   }
 
   var keys = allKeys(props);
