@@ -53,6 +53,18 @@ describe("factory", function() {
     var idate = immutable(date);
     assert.equal(idate.getDate(), 2);
   });
+
+  it("does not wrap objects with __isImmutableObject__", function() {
+    var data = {
+      foo: 1,
+      __isImmutableObject__: true,
+    };
+    var obj1 = immutable(data);
+    assert(data === obj1);
+    var obj2 = immutable();
+    obj2 = obj2.set("bar", data);
+    assert(obj2.bar === data);
+  });
 });
 
 describe("immutable array", function() {

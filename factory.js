@@ -12,6 +12,9 @@ function isDate(arg) {
 function factory(input, callback) {
   if (arguments.length === 0) {
     return ImmutableObject(null, callback);
+  } else if (input && input.__isImmutableObject__) {
+    // @TODO Handle callback
+    return input;
   } else if (Array.isArray(input)) {
     return freeze(input.map(function(el) {
       return factory(el, callback);
